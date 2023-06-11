@@ -1,5 +1,6 @@
 # Ignore Node.js modules
-node_modules/
+/node_modules
+
 
 # Include JavaScript, HTML, and CSS files
 !**/*.js
