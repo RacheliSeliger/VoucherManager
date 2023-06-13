@@ -1,4 +1,4 @@
-# VoucherManager
+# Voucher Manager
 
 The Voucher Manager is a web application that allows you to manage vouchers with barcode and amount. It provides functionality to insert a new voucher, retrieve the oldest voucher barcode, and delete a voucher.
 
