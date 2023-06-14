@@ -1,56 +1,68 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background-color: #e6830a;
-}
+  body {
+    background-color: orange;
+    color: black;
+    font-family: "Arial", sans-serif;
+  }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
+  .container {
+    margin-top: 50px;
+  }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
+  .card {
+    border-radius: 10px;
+  }
 
-.form-container {
-  background-color: #e6830a;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+  .card-body {
+    padding: 30px;
+  }
 
-.input-container {
-  margin-bottom: 10px;
-}
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
 
-label {
-  display: block;
-}
+  .form-group label {
+    font-weight: bold;
+  }
 
-input {
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-}
+  .btn-primary {
+    background-color: orange;
+    border-color: rgb(223, 148, 9);
+  }
 
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #202224;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+  .btn-primary:hover {
+    background-color: darkorange;
+    border-color: darkorange;
+  }
 
-#resultContainer {
-  margin-top: 20px;
-  text-align: center;
-}
+  .btn-danger {
+    background-color: crimson;
+    border-color: crimson;
+  }
+
+  .btn-danger:hover {
+    background-color: darkred;
+    border-color: darkred;
+  }
+
+  .text-success {
+    color: green;
+    font-weight: bold;
+  }
+
+  .text-danger {
+    color: red;
+    font-weight: bold;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
