@@ -22,43 +22,39 @@ exports.createUser = async (req, res) => {
 //   }
   
 
-
 exports.get = async (req, res) => {
   try {
-    const amount = req.query.amount; // Get the desired amount from the query parameters
-    const voucher = await User.findOne({ amount }).sort({ createdAt: 1 }); // Add a filter for the desired amount
-    if (!voucher) {
-      res.status(404).json({ message: `No voucher found with amount ${amount}` });
+    const amount = parseInt(req.query.amount);
+
+    const vouchers = await User.find({ amount: { $lte: amount } }).sort({ amount: -1 });
+    if (vouchers.length === 0) {
+      res.status(404).json({ message: `No vouchers found that can cover the amount ${amount}` });
       return;
     }
-    res.json(voucher.barcode);
+
+    let remainingAmount = amount;
+    const selectedVouchers = [];
+    for (const voucher of vouchers) {
+      if (remainingAmount >= voucher.amount) {
+        selectedVouchers.push(voucher.barcode);
+        remainingAmount -= voucher.amount;
+        if (remainingAmount === 0) {
+          break;
+        }
+      }
+    }
+
+    const response = {
+      barcodes: selectedVouchers,
+      totalAmount: amount - remainingAmount,
+      remainingAmount: remainingAmount
+    };
+
+    res.json(response);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-
-
-exports.updateUser = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const { barcode, amount } = req.body;
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { name, email },
-      { new: true }
-    );
-    if (!updatedUser) {
-      res.status(404).json({ error: 'User not found' });
-    } else {
-      res.json(updatedUser);
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
 
 
 exports.deleteVoucher =  async (req, res) => {
@@ -68,7 +64,7 @@ exports.deleteVoucher =  async (req, res) => {
 
     const deletedVoucher = await User.findOneAndDelete({ barcode });
     if (!deletedVoucher) {
-      res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'voucher not found' });
     } else {
       res.json(deletedVoucher);
     }

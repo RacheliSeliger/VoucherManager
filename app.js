@@ -31,7 +31,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  getVoucherBtn.addEventListener('click', async () => { // Add the event listener for the 'getVoucherBtn'
+  // getVoucherBtn.addEventListener('click', async () => { // Add the event listener for the 'getVoucherBtn'
+  //   const amount = amountInput.value;
+
+  //   try {
+  //     const response = await fetch(`http://localhost:3000/api/vouchers?amount=${amount}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const barcode = await response.json();
+  //       resultContainer.innerHTML = `<p>Voucher found with barcode: ${barcode}</p>`;
+  //     } else {
+  //       const error = await response.json();
+  //       resultContainer.innerHTML = `<p class="error">${error.message}</p>`;
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     resultContainer.innerHTML = `<p class="error">An error occurred. Please try again later.</p>`;
+  //   }
+  // });
+
+  getVoucherBtn.addEventListener('click', async () => {
     const amount = amountInput.value;
 
     try {
@@ -43,8 +67,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (response.ok) {
-        const barcode = await response.json();
-        resultContainer.innerHTML = `<p>Voucher found with barcode: ${barcode}</p>`;
+        const data = await response.json();
+        const { barcodes, totalAmount, remainingAmount } = data;
+
+        let resultHtml = '';
+        if (barcodes.length > 0) {
+          resultHtml += `<p>Vouchers found:</p>`;
+          resultHtml += `<ul>`;
+          barcodes.forEach((barcode) => {
+            resultHtml += `<li>${barcode}</li>`;
+          });
+          resultHtml += `</ul>`;
+          resultHtml += `<p>Total amount covered: ${totalAmount}</p>`;
+          if (remainingAmount > 0) {
+            resultHtml += `<p>Remaining amount: ${remainingAmount}</p>`;
+          }
+        } else {
+          resultHtml = `<p>No vouchers found that can cover the amount ${amount}</p>`;
+        }
+
+        resultContainer.innerHTML = resultHtml;
       } else {
         const error = await response.json();
         resultContainer.innerHTML = `<p class="error">${error.message}</p>`;
@@ -54,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
       resultContainer.innerHTML = `<p class="error">An error occurred. Please try again later.</p>`;
     }
   });
+
 
   deleteVoucherBtn.addEventListener('click', async () => { // Add the event listener for the 'deleteVoucherBtn'
     const barcode = barcodeInput.value;

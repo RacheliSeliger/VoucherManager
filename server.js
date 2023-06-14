@@ -9,7 +9,7 @@ const port = 3000;
 
 app.use(cors());
 
-mongoose.connect(process.env.DATABASE_URL ||'mongodb://localhost:27017/barcode', {
+mongoose.connect('mongodb://localhost:27017/barcode', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
